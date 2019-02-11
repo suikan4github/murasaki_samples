@@ -456,10 +456,10 @@ void HAL_I2C_ErrorCallback(I2C_HandleTypeDef * hi2c) {
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 
-    if ( USER_Btn_Pin == GPIO_Pin)
-            {
+    if ( USER_Btn_Pin == GPIO_Pin) {
         // release the waiting task
-        murasaki::platform.sync_with_button->Release();
+        if (murasaki::platform.sync_with_button != nullptr)
+            murasaki::platform.sync_with_button->Release();
     }
 
 }
