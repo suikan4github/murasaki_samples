@@ -36,19 +36,21 @@ murasaki::Debugger * murasaki::debugger;
  *
  * The declaration here is user project dependent.
  */
+extern UART_HandleTypeDef huart3;
+extern I2C_HandleTypeDef hi2c1;
+
 // Following block is just sample.
 #if 0
-extern I2C_HandleTypeDef hi2c1;
 extern I2C_HandleTypeDef hi2c2;
 extern SPI_HandleTypeDef hspi1;
 extern SPI_HandleTypeDef hspi4;
 extern UART_HandleTypeDef huart2;
 #endif
-extern UART_HandleTypeDef huart3;
 
 /* -------------------- PLATFORM ALGORITHM ------------------------- */
 
 void TaskBodyFunction(const void* ptr);
+void I2cSearch(murasaki::I2CMasterStrategy * master);
 
 void InitPlatform()
 {
@@ -69,6 +71,11 @@ void InitPlatform()
     // The port and pin names are fined by CubeMX.
     murasaki::platform.led = new murasaki::BitOut(LD2_GPIO_Port, LD2_Pin);
 
+    // For demonstration of master and slave I2C
+    murasaki::platform.i2c_master = new murasaki::I2cMaster(&hi2c1);
+
+    murasaki::platform.sync_with_button = new murasaki::Synchronizer();
+
     // For demonstration of FreeRTOS task.
     murasaki::platform.task1 = new murasaki::Task(
                                                   "Master",
@@ -82,8 +89,7 @@ void InitPlatform()
 #if 0
     // For demonstration of the serial communication.
     murasaki::platform.uart = new murasaki::Uart(&huart2);
-    // For demonstration of master and slave I2C
-    murasaki::platform.i2cMaster = new murasaki::I2cMaster(&hi2c1);
+
     murasaki::platform.i2cSlave = new murasaki::I2cSlave(&hi2c2);
     // For demonstration of master and slave SPI
     murasaki::platform.spiMaster = new murasaki::SpiMaster(&hspi1);
@@ -94,8 +100,6 @@ void InitPlatform()
 
 void ExecPlatform()
 {
-    // counter for the demonstration.
-    static int count = 0;
 
     // Following blocks are sample.
 #if 0
@@ -113,7 +117,7 @@ void ExecPlatform()
         uint8_t data[5] = {1, 2, 3, 4, 5};
         murasaki::I2cStatus stat;
 
-        stat = murasaki::platform.i2cMaster->Transmit(
+        stat = murasaki::platform.i2c_master->Transmit(
                 127,
                 data,
                 5);
@@ -164,17 +168,15 @@ void ExecPlatform()
     murasaki::platform.task1->Start();
 
 
+    // print a message with counter value to the console.
+    murasaki::debugger->Printf("Push user button to display the I2C slave device \n\r");
+
+
     // Loop forever
     while (true) {
+        murasaki::platform.sync_with_button->Wait();
+        I2cSearch(murasaki::platform.i2c_master);
 
-        // print a message with counter value to the console.
-        murasaki::debugger->Printf("Hello %d \n\r", count);
-
-        // update the counter value.
-        count++;
-
-        // wait for a while
-        murasaki::Sleep(static_cast<murasaki::WaitMilliSeconds>(500));
     }
 }
 
@@ -330,9 +332,9 @@ void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef * hi2c)
 {
     // Poll all I2C master tx related interrupt receivers.
     // If hit, return. If not hit,check next.
-#if 0
-//    if (murasaki::platform.i2c_master->TransmitCompleteCallback(hi2c))
-//        return;
+#if 1
+    if (murasaki::platform.i2c_master->TransmitCompleteCallback(hi2c))
+        return;
 #endif
 }
 
@@ -353,7 +355,7 @@ void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef * hi2c)
 void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef * hi2c) {
     // Poll all I2C master rx related interrupt receivers.
     // If hit, return. If not hit,check next.
-#if 0
+#if 1
     if (murasaki::platform.i2c_master->ReceiveCompleteCallback(hi2c))
     return;
 #endif
@@ -424,7 +426,7 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef * hi2c) {
 void HAL_I2C_ErrorCallback(I2C_HandleTypeDef * hi2c) {
     // Poll all I2C master error related interrupt receivers.
     // If hit, return. If not hit,check next.
-#if 0
+#if 1
     if (murasaki::platform.i2c_master->HandleError(hi2c))
     return;
 #endif
@@ -451,14 +453,15 @@ void HAL_I2C_ErrorCallback(I2C_HandleTypeDef * hi2c) {
  * The GPIO_P is the number of Pin. If programmmer set the pin name by CubeMX as FOO, the
  * macro to identify that EXTI is FOO_PIN
  */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_P)
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  /*
-   if ( FOO_PIN == GPIO_PIN )
-   {
-   // do something
-   }
-   */
+
+    if ( USER_Btn_Pin == GPIO_Pin)
+            {
+        // release the waiting task
+        murasaki::platform.sync_with_button->Release();
+    }
+
 }
 
 /* ------------------ ASSERTION AND ERROR -------------------------- */
@@ -484,4 +487,37 @@ void TaskBodyFunction(const void* ptr)
         murasaki::platform.led->Toggle();  // toggling LED
         murasaki::Sleep(static_cast<murasaki::WaitMilliSeconds>(700));
     }
+}
+
+/*
+ * Search I2C device on the I2C master device
+ */
+void I2cSearch(murasaki::I2CMasterStrategy * master)
+{
+    uint8_t tx_buf[1];
+
+    murasaki::debugger->Printf("            Probing I2C devices \n\r");
+    murasaki::debugger->Printf("   | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n\r");
+    murasaki::debugger->Printf("---+------------------------------------------------\n\r");
+
+    // Search raw
+    for (int raw = 0; raw < 128; raw += 16)
+            {
+        // Search column
+        murasaki::debugger->Printf("%2x |", raw);
+        for (int col = 0; col < 16; col++)
+                {
+            murasaki::I2cStatus result;
+            // check whether device exist or not.
+            result = master->Transmit(raw + col, tx_buf, 0);
+            if (result == murasaki::ki2csOK)       // device acknowledged.
+                murasaki::debugger->Printf(" %2X", raw + col);
+            else if (result == murasaki::ki2csNak)  // no device
+                murasaki::debugger->Printf(" --");
+            else
+                murasaki::debugger->Printf(" ??");  // unpredicted error.
+        }
+        murasaki::debugger->Printf("\n\r");
+    }
+
 }

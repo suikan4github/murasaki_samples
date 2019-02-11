@@ -38,7 +38,9 @@ struct Platform
     LoggerStrategy * logger;        ///< logging class object for debugger
 
     BitOutStrategy * led;           ///< GP out under test
+    I2CMasterStrategy * i2c_master;  ///< I2C Master under test
     TaskStrategy * task1;           ///< Task under test
+    Synchronizer * sync_with_button;           ///< To sync with user button
 
     // Following block is just sample
 
@@ -46,7 +48,6 @@ struct Platform
     UartStrategy * uart;            ///< UART under test
     SpiMasterStrategy * spiMaster;///< SPI Master under test
     SpiSlaveStrategy * spiSlave;///< SPI Slave under test
-    I2CMasterStrategy * i2cMaster;///< I2C Master under test
     I2cSlaveStrategy * i2cSlave;///< I2C Slave under test
 #endif
 
