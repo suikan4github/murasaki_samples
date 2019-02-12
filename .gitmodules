@@ -4,3 +4,6 @@
 [submodule "nucleo-f722-sample/murasaki"]
 	path = nucleo-f722-sample/murasaki
 	url = git@github.com:suikan4github/murasaki.git
+[submodule "nucleo-l152-sample/murasaki"]
+	path = nucleo-l152-sample/murasaki
+	url = git@github.com:suikan4github/murasaki.git
