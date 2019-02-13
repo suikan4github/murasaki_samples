@@ -43,19 +43,25 @@ The demonstration on the Nucleo 32 is just blinking LED.
 The Murasaki Samples can be obtained from [Github project page](https://github.com/suikan4github/murasaki_samples/)
 
 # Install
+## Clone the repository
 Run following command on the shell wingow to clone the git repository of the Murasaki Samples. Note : Do not clone the repository into the Eclipse workspace. The repository must be located at independent path.
 ```bash
 git clone git@github.com:suikan4github/murasaki_samples.git
 cd murasaki_samples
 git submodule update
 ```
+## Import project from git
 ![Choose Projects from Git](screenshots/Screenshot_from_2019-02-14_07-05-27.png)
-![](screenshots/Screenshot_from_2019-02-14_07-05-42.png)
-![](screenshots/Screenshot_from_2019-02-14_07-06-01.png)
-![](screenshots/Screenshot_from_2019-02-14_07-06-26.png)
-![](screenshots/Screenshot_from_2019-02-14_07-06-26.png)
-![](screenshots/Screenshot_from_2019-02-14_07-06-35.png)
-![](screenshots/Screenshot_from_2019-02-14_07-06-50.png)
+## Select Repository Source
+![Chose Existing local repository](screenshots/Screenshot_from_2019-02-14_07-05-42.png)
+## Select a Git Repository
+![No murasaki_samples repository at this moment](screenshots/Screenshot_from_2019-02-14_07-06-01.png)
+## Search and select Git repositories on your local file system
+![Search the repository and select](screenshots/Screenshot_from_2019-02-14_07-06-26.png)
+## Select a Git Repository
+![Choose a murasaki_sample](screenshots/Screenshot_from_2019-02-14_07-06-35.png)
+## Select a wizard to use for importint project
+![Chose a project to import](screenshots/Screenshot_from_2019-02-14_07-06-50.png)
 # License
 The Murasaki Sample programs are distributed under [MIT License](https://github.com/suikan4github/murasaki_samples/blob/master/LICENSE)
 # Author
