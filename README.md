@@ -49,7 +49,7 @@ git clone git@github.com:suikan4github/murasaki_samples.git
 cd murasaki_samples
 git submodule update
 ```
-![Choose Projects from Git](https://github.com/suikan4github/murasaki_samples/blob/release/screenshots/Screenshot from 2019-02-14 07-05-27.png)
+![Choose Projects from Git]("https://github.com/suikan4github/murasaki_samples/blob/release/screenshots/Screenshot from 2019-02-14 07-05-27.png")
 ![](https://github.com/suikan4github/murasaki_samples/blob/release/screenshots/Screenshot from 2019-02-14 07-05-42.png)
 ![](https://github.com/suikan4github/murasaki_samples/blob/release/screenshots/Screenshot from 2019-02-14 07-06-01.png)
 ![](https://github.com/suikan4github/murasaki_samples/blob/release/screenshots/Screenshot from 2019-02-14 07-06-26.png)
