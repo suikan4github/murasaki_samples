@@ -49,13 +49,13 @@ git clone git@github.com:suikan4github/murasaki_samples.git
 cd murasaki_samples
 git submodule update
 ```
-![Choose Projects from Git](screenshots/Screenshot from 2019-02-14 07-05-27.png)
-![]("screenshots/Screenshot\ from\ 2019-02-14\ 07-05-42.png")
-![](screenshots/Screenshot from 2019-02-14 07-06-01.png)
-![](screenshots/Screenshot from 2019-02-14 07-06-26.png)
-![](screenshots/Screenshot from 2019-02-14 07-06-26.png)
-![](screenshots/Screenshot from 2019-02-14 07-06-35.png)
-![](screenshots/Screenshot from 2019-02-14 07-06-50.png)
+![Choose Projects from Git](screenshots/Screenshot_from_2019-02-14_07-05-27.png)
+![](screenshots/Screenshot_from_2019-02-14_07-05-42.png)
+![](screenshots/Screenshot_from_2019-02-14_07-06-01.png)
+![](screenshots/Screenshot_from_2019-02-14_07-06-26.png)
+![](screenshots/Screenshot_from_2019-02-14_07-06-26.png)
+![](screenshots/Screenshot_from_2019-02-14_07-06-35.png)
+![](screenshots/Screenshot_from_2019-02-14_07-06-50.png)
 # License
 The Murasaki Sample programs are distributed under [MIT License](https://github.com/suikan4github/murasaki_samples/blob/master/LICENSE)
 # Author
