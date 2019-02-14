@@ -74,7 +74,7 @@ And click "Next"
 We are back again. Now, select the "murasaki_samples", then click "Next".
 
 ![Choose a murasaki_sample](screenshots/Screenshot_from_2019-02-14_07-06-35.png)
-## Select a wizard to use for important project
+## Select a wizard to use for importing project
 
 Select the "import existing Eclipse projects" radio button. Then, select the desired project to import. Then click.
 
