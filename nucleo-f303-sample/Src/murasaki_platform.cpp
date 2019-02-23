@@ -96,7 +96,7 @@ void ExecPlatform()
         murasaki::platform.led->Toggle();
 
         // Message Out
-        murasaki::debugger->Printf("Hello %d \r\n", murasaki::platform.count);
+        murasaki::debugger->Printf("Hello %d \n", murasaki::platform.count);
 
         murasaki::platform.count++;
         // Hold on
@@ -393,7 +393,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 void CustomAssertFailed(uint8_t* file, uint32_t line)
                         {
-    murasaki::debugger->Printf("Wrong parameters value: file %s on line %d\r\n",
+    murasaki::debugger->Printf("Wrong parameters value: file %s on line %d\n",
                                file, line);
 }
 
