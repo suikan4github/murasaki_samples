@@ -169,7 +169,7 @@ void ExecPlatform()
 
 
     // print a message with counter value to the console.
-    murasaki::debugger->Printf("Push user button to display the I2C slave device \n\r");
+    murasaki::debugger->Printf("Push user button to display the I2C slave device \n");
 
 
     // Loop forever
@@ -468,7 +468,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
 void CustomAssertFailed(uint8_t* file, uint32_t line)
                         {
-    murasaki::debugger->Printf("Wrong parameters value: file %s on line %d\r\n",
+    murasaki::debugger->Printf("Wrong parameters value: file %s on line %d\n",
                                file, line);
 }
 
@@ -496,9 +496,9 @@ void I2cSearch(murasaki::I2CMasterStrategy * master)
 {
     uint8_t tx_buf[1];
 
-    murasaki::debugger->Printf("            Probing I2C devices \n\r");
-    murasaki::debugger->Printf("   | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n\r");
-    murasaki::debugger->Printf("---+------------------------------------------------\n\r");
+    murasaki::debugger->Printf("            Probing I2C devices \n");
+    murasaki::debugger->Printf("   | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n");
+    murasaki::debugger->Printf("---+------------------------------------------------\n");
 
     // Search raw
     for (int raw = 0; raw < 128; raw += 16)
@@ -517,7 +517,7 @@ void I2cSearch(murasaki::I2CMasterStrategy * master)
             else
                 murasaki::debugger->Printf(" ??");  // unpredicted error.
         }
-        murasaki::debugger->Printf("\n\r");
+        murasaki::debugger->Printf("\n");
     }
 
 }

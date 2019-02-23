@@ -169,7 +169,7 @@ void ExecPlatform()
 
 
     // print a message with counter value to the console.
-    murasaki::debugger->Printf("Push user button to display the I2C slave device \n\r");
+    murasaki::debugger->Printf("Push user button to display the I2C slave device \n");
 
 
     // Loop forever
@@ -441,7 +441,7 @@ void HAL_I2C_ErrorCallback(I2C_HandleTypeDef * hi2c) {
 /**
  * @brief Optional interrupt handling of EXTI
  * @ingroup MURASAKI_PLATFORM_GROUP
- * @param GPIO_P Pin number from 0 to 31
+ * @param GPIO_Pin Pin number from 0 to 31
  * @details
  * This is called from inside of HAL when an EXTI is accepted.
  *
@@ -450,8 +450,8 @@ void HAL_I2C_ErrorCallback(I2C_HandleTypeDef * hi2c) {
  * In the other hand, that function is declared as weak bound.
  * As a result, this function overrides the default error interrupt call back.
  *
- * The GPIO_P is the number of Pin. If programmmer set the pin name by CubeMX as FOO, the
- * macro to identify that EXTI is FOO_PIN
+ * The GPIO_Pin is the number of Pin. For example, if programmer set the pin name by CubeMX as FOO, the
+ * macro to identify that EXTI is FOO_Pin
  */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
@@ -467,7 +467,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 /* ------------------ ASSERTION AND ERROR -------------------------- */
 
 void CustomAssertFailed(uint8_t* file, uint32_t line) {
-    murasaki::debugger->Printf("Wrong parameters value: file %s on line %d\r\n",
+    murasaki::debugger->Printf("Wrong parameters value: file %s on line %d\n",
                                file, line);
 }
 
@@ -494,9 +494,9 @@ void I2cSearch(murasaki::I2CMasterStrategy * master)
 {
     uint8_t tx_buf[1];
 
-    murasaki::debugger->Printf("            Probing I2C devices \n\r");
-    murasaki::debugger->Printf("   | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n\r");
-    murasaki::debugger->Printf("---+------------------------------------------------\n\r");
+    murasaki::debugger->Printf("            Probing I2C devices \n");
+    murasaki::debugger->Printf("   | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n");
+    murasaki::debugger->Printf("---+------------------------------------------------\n");
 
     // Search raw
     for (int raw = 0; raw < 128; raw += 16) {
@@ -513,7 +513,7 @@ void I2cSearch(murasaki::I2CMasterStrategy * master)
             else
                 murasaki::debugger->Printf(" ??");  // unpredicted error.
         }
-        murasaki::debugger->Printf("\n\r");
+        murasaki::debugger->Printf("\n");
     }
 
 }
