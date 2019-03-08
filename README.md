@@ -49,6 +49,7 @@ Run the following command on the shell window to clone the git repository of the
 ```bash
 git clone git@github.com:suikan4github/murasaki_samples.git
 cd murasaki_samples
+git submodule init
 git submodule update
 ```
 ## Import project from git

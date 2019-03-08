@@ -2,11 +2,20 @@
 Record of the modification in project development.
 
 ## [Unreleased]
+
+
+### Added
+### Changed
+- [Issue 4 : Add git subumodule init to the Install section of readme](https://github.com/suikan4github/murasaki_samples/issues/4)
+### Deprecated
+### Removed
+### Fixed
+### Security
 ## [0.2.1] - 2019-02-24
 
 ### Added
 ### Changed
-- Update Murasaki submodele to ver 0.2.0
+- Update Murasaki submodele to ver 0.2.1
 
 ### Deprecated
 ### Removed
