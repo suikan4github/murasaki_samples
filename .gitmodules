@@ -13,3 +13,6 @@
 [submodule "nucleo-f303-sample/murasaki"]
 	path = nucleo-f303-sample/murasaki
 	url = https://github.com/suikan4github/murasaki.git
+[submodule "nucleo-f446-sample/murasaki"]
+	path = nucleo-f446-sample/murasaki
+	url = https://github.com/suikan4github/murasaki.git
