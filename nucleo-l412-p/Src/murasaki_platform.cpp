@@ -78,7 +78,7 @@ void InitPlatform()
 
     // For demonstration, one GPIO LED port is reserved.
     // The port and pin names are fined by CubeIDE.
-    murasaki::platform.led = new murasaki::BitOut(LD2_GPIO_Port, LD2_Pin);
+    murasaki::platform.led = new murasaki::BitOut(LD4_GPIO_Port, LD4_GPIO_Port);
     MURASAKI_ASSERT(nullptr != murasaki::platform.led)
 
     // For demonstration of FreeRTOS task.

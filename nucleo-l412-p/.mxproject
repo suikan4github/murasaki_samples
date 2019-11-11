@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=/home/takemasa/STM32CubeIDE/workspace_murasaki_sample/nucleo-l412-p/Inc
+HeaderPath=/home/takemasa/git/murasaki_samples/nucleo-l412-p/Inc
 HeaderFiles=stm32l4xx_it.h;stm32l4xx_hal_conf.h;main.h;FreeRTOSConfig.h;
-SourcePath=/home/takemasa/STM32CubeIDE/workspace_murasaki_sample/nucleo-l412-p/Src
+SourcePath=/home/takemasa/git/murasaki_samples/nucleo-l412-p/Src
 SourceFiles=stm32l4xx_it.c;stm32l4xx_hal_msp.c;main.c;freertos.c;stm32l4xx_hal_timebase_tim.c;
 
 [PreviousLibFiles]
