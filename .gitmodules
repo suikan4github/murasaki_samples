@@ -1,20 +1,5 @@
-[submodule "nucleo-f746-sample/murasaki"]
-	path = nucleo-f746-sample/murasaki
-	url = https://github.com/suikan4github/murasaki.git
-[submodule "nucleo-f722-sample/murasaki"]
-	path = nucleo-f722-sample/murasaki
-	url = https://github.com/suikan4github/murasaki.git
-[submodule "nucleo-l152-sample/murasaki"]
-	path = nucleo-l152-sample/murasaki
-	url = https://github.com/suikan4github/murasaki.git
-[submodule "nucleo-f091-sample/murasaki"]
-	path = nucleo-f091-sample/murasaki
-	url = https://github.com/suikan4github/murasaki.git
-[submodule "nucleo-f303-sample/murasaki"]
-	path = nucleo-f303-sample/murasaki
-	url = https://github.com/suikan4github/murasaki.git
-[submodule "nucleo-f446-sample/murasaki"]
-	path = nucleo-f446-sample/murasaki
+[submodule "nucleo-f091-64/murasaki"]
+	path = nucleo-f091-64/murasaki
 	url = https://github.com/suikan4github/murasaki.git
 [submodule "nucleo-f446-64/murasaki"]
 	path = nucleo-f446-64/murasaki
