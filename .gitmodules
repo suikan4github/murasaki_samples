@@ -16,3 +16,6 @@
 [submodule "nucleo-l152-64/murasaki"]
 	path = nucleo-l152-64/murasaki
 	url = https://github.com/suikan4github/murasaki.git
+[submodule "nucleo-l412-64/murasaki"]
+	path = nucleo-l412-64/murasaki
+	url = https://github.com/suikan4github/murasaki.git
