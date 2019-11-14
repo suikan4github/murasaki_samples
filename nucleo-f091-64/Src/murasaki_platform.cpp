@@ -45,7 +45,7 @@ extern SPI_HandleTypeDef hspi1;
 extern SPI_HandleTypeDef hspi4;
 extern UART_HandleTypeDef huart2;
 #endif
-extern UART_HandleTypeDef huart3;
+extern UART_HandleTypeDef huart2;
 
 /* -------------------- PLATFORM Prototypes ------------------------- */
 
@@ -58,7 +58,7 @@ void InitPlatform()
     // UART device setting for console interface.
     // On Nucleo, the port connected to the USB port of ST-Link is
     // referred here.
-    murasaki::platform.uart_console = new murasaki::DebuggerUart(&huart3);
+    murasaki::platform.uart_console = new murasaki::DebuggerUart(&huart2);
     while (nullptr == murasaki::platform.uart_console)
         ;  // stop here on the memory allocation failure.
 
