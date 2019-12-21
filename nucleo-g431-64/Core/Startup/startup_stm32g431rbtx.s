@@ -115,7 +115,14 @@ LoopForever:
  * @retval : None
 */
     .section	.text.Default_Handler,"ax",%progbits
+    .global CustomDefaultHandler
 Default_Handler:
+#if (__ARM_ARCH == 6 )
+  ldr r0, = CustomDefaultHandler
+  bx r0
+#else
+  b.w CustomDefaultHandler
+#endif
 Infinite_Loop:
 	b	Infinite_Loop
 	.size	Default_Handler, .-Default_Handler
