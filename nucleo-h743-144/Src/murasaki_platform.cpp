@@ -38,23 +38,22 @@ murasaki::Debugger * murasaki::debugger;
  * The declaration here is user project dependent.
  */
 // Following block is just sample.
-#if 0
 extern I2C_HandleTypeDef hi2c1;
-extern I2C_HandleTypeDef hi2c2;
-extern SPI_HandleTypeDef hspi1;
-extern SPI_HandleTypeDef hspi4;
-extern UART_HandleTypeDef huart2;
-#endif
 extern UART_HandleTypeDef huart3;
 
 /* -------------------- PLATFORM Prototypes ------------------------- */
 
 void TaskBodyFunction(const void* ptr);
+void I2cSearch(murasaki::I2CMasterStrategy * master);
 
 /* -------------------- PLATFORM Implementation ------------------------- */
 
 void InitPlatform()
 {
+#if ! MURASAKI_CONFIG_NOCYCCNT
+    // Start the cycle counter to measure the cycle in MURASAKI_SYSLOG.
+    murasaki::InitCycleCounter();
+#endif
     // UART device setting for console interface.
     // On Nucleo, the port connected to the USB port of ST-Link is
     // referred here.
@@ -92,93 +91,30 @@ void InitPlatform()
     MURASAKI_ASSERT(nullptr != murasaki::platform.task1)
 
     // Following block is just for sample.
-#if 0
-    // For demonstration of the serial communication.
-    murasaki::platform.uart = new murasaki::Uart(&huart2);
     // For demonstration of master and slave I2C
-    murasaki::platform.i2cMaster = new murasaki::I2cMaster(&hi2c1);
-    murasaki::platform.i2cSlave = new murasaki::I2cSlave(&hi2c2);
-    // For demonstration of master and slave SPI
-    murasaki::platform.spiMaster = new murasaki::SpiMaster(&hspi1);
-    murasaki::platform.spiSlave = new murasaki::SpiSlave(&hspi4);
-#endif
+    murasaki::platform.i2c_master = new murasaki::I2cMaster(&hi2c1);
+    MURASAKI_ASSERT(nullptr != murasaki::platform.i2c_master)
 
-#if ! MURASAKI_CONFIG_NOCYCCNT
-    // Start the cycle counter to measure the cycle in MURASAKI_SYSLOG.
-    murasaki::InitCycleCounter();
-#endif
+    murasaki::platform.button_sync = new murasaki::Synchronizer();
+    MURASAKI_ASSERT(nullptr != murasaki::platform.button_sync)
+
 }
 
 void ExecPlatform()
 {
     // counter for the demonstration.
-    static int count = 0;
+    int count = 0;
 
-    // Following blocks are sample.
-#if 0
-    {
-        uint8_t data[5] = { 1, 2, 3, 4, 5 };
-        murasaki::UartStatus stat;
-
-        stat = murasaki::platform.uart->Transmit(
-                                                 data,
-                                                 5);
-
-    }
-
-    {
-        uint8_t data[5] = { 1, 2, 3, 4, 5 };
-        murasaki::I2cStatus stat;
-
-        stat = murasaki::platform.i2cMaster->Transmit(
-                                                      127,
-                                                      data,
-                                                      5);
-    }
-
-    {
-        uint8_t data[5];
-        murasaki::I2cStatus stat;
-
-        stat = murasaki::platform.i2cSlave->Receive(
-                                                    data,
-                                                    5);
-
-    }
-
-    {
-        // Create a slave adapter. This object specify the protocol and slave select pin
-        murasaki::SpiSlaveAdapterStrategy * slave_spec;
-        slave_spec = new murasaki::SpiSlaveAdapter(
-                                                   murasaki::kspoFallThenRise,
-                                                   murasaki::ksphLatchThenShift,
-                                                   SPI_SLAVE_SEL_GPIO_Port,
-                                                   SPI_SLAVE_SEL_Pin
-                                                   );
-
-        // Transmit and receive data through SPI
-        uint8_t tx_data[5] = { 1, 2, 3, 4, 5 };
-        uint8_t rx_data[5];
-        murasaki::SpiStatus stat;
-        stat = murasaki::platform.spiMaster->TransmitAndReceive(
-                                                                slave_spec,
-                                                                tx_data,
-                                                                rx_data,
-                                                                5);
-    }
-
-    {
-        // Transmit and receive data through SPI
-        uint8_t tx_data[5] = { 1, 2, 3, 4, 5 };
-        uint8_t rx_data[5];
-        murasaki::SpiStatus stat;
-        stat = murasaki::platform.spiSlave->TransmitAndReceive(
-                                                               tx_data,
-                                                               rx_data,
-                                                               5);
-    }
-#endif
+    // Start LED blink
     murasaki::platform.task1->Start();
+
+    // waiting for the Button push.
+    murasaki::debugger->Printf("!!! Push blue button to start the demo \n");
+    murasaki::platform.button_sync->Wait();
+
+    // List up connected I2C device to the console.
+    I2cSearch(murasaki::platform.i2c_master);
+
 
     // Loop forever
     while (true) {
@@ -344,9 +280,9 @@ void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef * hi2c)
                                   {
     // Poll all I2C master tx related interrupt receivers.
     // If hit, return. If not hit,check next.
-#if 0
-//    if (murasaki::platform.i2c_master->TransmitCompleteCallback(hi2c))
-//        return;
+#if 1
+    if (murasaki::platform.i2c_master->TransmitCompleteCallback(hi2c))
+        return;
 #endif
 }
 
@@ -367,7 +303,7 @@ void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef * hi2c)
 void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef * hi2c) {
     // Poll all I2C master rx related interrupt receivers.
     // If hit, return. If not hit,check next.
-#if 0
+#if 1
     if (murasaki::platform.i2c_master->ReceiveCompleteCallback(hi2c))
     return;
 #endif
@@ -438,7 +374,7 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef * hi2c) {
 void HAL_I2C_ErrorCallback(I2C_HandleTypeDef * hi2c) {
     // Poll all I2C master error related interrupt receivers.
     // If hit, return. If not hit,check next.
-#if 0
+#if 1
     if (murasaki::platform.i2c_master->HandleError(hi2c))
     return;
 #endif
@@ -512,9 +448,8 @@ void HAL_SAI_ErrorCallback(SAI_HandleTypeDef * hsai) {
  * The GPIO_Pin is the number of Pin. For example, if a programmer set the pin name by CubeIDE as FOO, the
  * macro to identify that EXTI is FOO_Pin
  */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-                            {
-#if 0
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)                            {
+#if 1
     // Sample of the EXTI call back.
     // USER_Btn is a standard name of the user push button switch of the Nucleo F722.
     // This switch can be configured as EXTI interrupt srouce.
@@ -523,10 +458,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     // Check whether appropriate interrupt or not
     if ( USER_Btn_Pin == GPIO_Pin) {
         // Check whether sync object is ready or not.
-        // This check is essential from the interrupt before the platform variable is ready
-        if (murasaki::platform.sync_with_button != nullptr)
+        // This check is essential to guard from the interrupt before the platform variable is ready
+        if (murasaki::platform.button_sync != nullptr)
         // release the waiting task
-            murasaki::platform.sync_with_button->Release();
+            murasaki::platform.button_sync->Release();
     }
 #endif
 }
@@ -646,8 +581,7 @@ void vApplicationStackOverflowHook(TaskHandle_t xTask,
  *
  * You can delete this function if you don't use.
  */
-void TaskBodyFunction(const void* ptr)
-                      {
+void TaskBodyFunction(const void* ptr)  {
 
     while (true)  // dummy loop
     {
@@ -665,7 +599,7 @@ void TaskBodyFunction(const void* ptr)
  *
  * This function can be deleted if you don't use.
  */
-#if 0
+#if 1
 void I2cSearch(murasaki::I2CMasterStrategy * master)
                {
     uint8_t tx_buf[1];

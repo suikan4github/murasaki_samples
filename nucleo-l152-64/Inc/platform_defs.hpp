@@ -39,16 +39,11 @@ struct Platform
 
     BitOutStrategy * led;           ///< GP out under test
     TaskStrategy * task1;           ///< Task under test
+    I2CMasterStrategy * i2c_master;  ///< I2C Master under test
+    Synchronizer * button_sync;		///< Syncronizer demo
 
     // Following block is just sample
 
-#if 0
-    UartStrategy * uart;            ///< UART under test
-    SpiMasterStrategy * spiMaster;  ///< SPI Master under test
-    SpiSlaveStrategy * spiSlave;    ///< SPI Slave under test
-    I2CMasterStrategy * i2cMaster;  ///< I2C Master under test
-    I2cSlaveStrategy * i2cSlave;    ///< I2C Slave under test
-#endif
 
 };
 

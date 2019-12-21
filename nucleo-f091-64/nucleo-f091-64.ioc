@@ -59,6 +59,7 @@ MxCube.Version=5.4.0
 MxDb.Version=DB.5.0.40
 NVIC.DMA1_Ch1_IRQn=true\:3\:0\:false\:false\:true\:true\:false\:true
 NVIC.DMA1_Ch2_3_DMA2_Ch1_2_IRQn=true\:3\:0\:false\:false\:true\:true\:false\:true
+NVIC.EXTI4_15_IRQn=true\:3\:0\:false\:false\:true\:true\:true\:true
 NVIC.ForceEnableDMAVector=true
 NVIC.HardFault_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.I2C1_IRQn=true\:3\:0\:false\:false\:true\:true\:true\:true

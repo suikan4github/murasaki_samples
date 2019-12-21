@@ -38,23 +38,22 @@ murasaki::Debugger * murasaki::debugger;
  * The declaration here is user project dependent.
  */
 // Following block is just sample.
-#if 0
 extern I2C_HandleTypeDef hi2c1;
-extern I2C_HandleTypeDef hi2c2;
-extern SPI_HandleTypeDef hspi1;
-extern SPI_HandleTypeDef hspi4;
-extern UART_HandleTypeDef huart2;
-#endif
 extern UART_HandleTypeDef huart2;
 
 /* -------------------- PLATFORM Prototypes ------------------------- */
 
 void TaskBodyFunction(const void* ptr);
+void I2cSearch(murasaki::I2CMasterStrategy * master);
 
 /* -------------------- PLATFORM Implementation ------------------------- */
 
 void InitPlatform()
 {
+#if ! MURASAKI_CONFIG_NOCYCCNT
+    // Start the cycle counter to measure the cycle in MURASAKI_SYSLOG.
+    murasaki::InitCycleCounter();
+#endif
     // UART device setting for console interface.
     // On Nucleo, the port connected to the USB port of ST-Link is
     // referred here.
@@ -91,21 +90,31 @@ void InitPlatform()
                                                         );
     MURASAKI_ASSERT(nullptr != murasaki::platform.task1)
 
+    // Following block is just for sample.
+    // For demonstration of master and slave I2C
+    murasaki::platform.i2c_master = new murasaki::I2cMaster(&hi2c1);
+    MURASAKI_ASSERT(nullptr != murasaki::platform.i2c_master)
 
+    murasaki::platform.button_sync = new murasaki::Synchronizer();
+    MURASAKI_ASSERT(nullptr != murasaki::platform.button_sync)
 
-#if ! MURASAKI_CONFIG_NOCYCCNT
-    // Start the cycle counter to measure the cycle in MURASAKI_SYSLOG.
-    murasaki::InitCycleCounter();
-#endif
 }
 
 void ExecPlatform()
 {
     // counter for the demonstration.
-    static int count = 0;
+    int count = 0;
 
-    // Following blocks are sample.
+    // Start LED blink
     murasaki::platform.task1->Start();
+
+    // waiting for the Button push.
+    murasaki::debugger->Printf("!!! Push blue button to start the demo \n");
+    murasaki::platform.button_sync->Wait();
+
+    // List up connected I2C device to the console.
+    I2cSearch(murasaki::platform.i2c_master);
+
 
     // Loop forever
     while (true) {
@@ -271,9 +280,9 @@ void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef * hi2c)
                                   {
     // Poll all I2C master tx related interrupt receivers.
     // If hit, return. If not hit,check next.
-#if 0
-//    if (murasaki::platform.i2c_master->TransmitCompleteCallback(hi2c))
-//        return;
+#if 1
+    if (murasaki::platform.i2c_master->TransmitCompleteCallback(hi2c))
+        return;
 #endif
 }
 
@@ -294,7 +303,7 @@ void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef * hi2c)
 void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef * hi2c) {
     // Poll all I2C master rx related interrupt receivers.
     // If hit, return. If not hit,check next.
-#if 0
+#if 1
     if (murasaki::platform.i2c_master->ReceiveCompleteCallback(hi2c))
     return;
 #endif
@@ -365,7 +374,7 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef * hi2c) {
 void HAL_I2C_ErrorCallback(I2C_HandleTypeDef * hi2c) {
     // Poll all I2C master error related interrupt receivers.
     // If hit, return. If not hit,check next.
-#if 0
+#if 1
     if (murasaki::platform.i2c_master->HandleError(hi2c))
     return;
 #endif
@@ -439,21 +448,20 @@ void HAL_SAI_ErrorCallback(SAI_HandleTypeDef * hsai) {
  * The GPIO_Pin is the number of Pin. For example, if a programmer set the pin name by CubeIDE as FOO, the
  * macro to identify that EXTI is FOO_Pin
  */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-                            {
-#if 0
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)                            {
+#if 1
     // Sample of the EXTI call back.
     // USER_Btn is a standard name of the user push button switch of the Nucleo F722.
     // This switch can be configured as EXTI interrupt srouce.
     // In this sample, releasing the waiting task if interrupt comes.
 
     // Check whether appropriate interrupt or not
-    if ( USER_Btn_Pin == GPIO_Pin) {
+    if ( B1_Pin == GPIO_Pin) {
         // Check whether sync object is ready or not.
-        // This check is essential from the interrupt before the platform variable is ready
-        if (murasaki::platform.sync_with_button != nullptr)
+        // This check is essential to guard from the interrupt before the platform variable is ready
+        if (murasaki::platform.button_sync != nullptr)
         // release the waiting task
-            murasaki::platform.sync_with_button->Release();
+            murasaki::platform.button_sync->Release();
     }
 #endif
 }
@@ -573,8 +581,7 @@ void vApplicationStackOverflowHook(TaskHandle_t xTask,
  *
  * You can delete this function if you don't use.
  */
-void TaskBodyFunction(const void* ptr)
-                      {
+void TaskBodyFunction(const void* ptr)  {
 
     while (true)  // dummy loop
     {
@@ -592,7 +599,7 @@ void TaskBodyFunction(const void* ptr)
  *
  * This function can be deleted if you don't use.
  */
-#if 0
+#if 1
 void I2cSearch(murasaki::I2CMasterStrategy * master)
                {
     uint8_t tx_buf[1];
