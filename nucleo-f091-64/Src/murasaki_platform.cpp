@@ -91,17 +91,7 @@ void InitPlatform()
                                                         );
     MURASAKI_ASSERT(nullptr != murasaki::platform.task1)
 
-    // Following block is just for sample.
-#if 0
-    // For demonstration of the serial communication.
-    murasaki::platform.uart = new murasaki::Uart(&huart2);
-    // For demonstration of master and slave I2C
-    murasaki::platform.i2cMaster = new murasaki::I2cMaster(&hi2c1);
-    murasaki::platform.i2cSlave = new murasaki::I2cSlave(&hi2c2);
-    // For demonstration of master and slave SPI
-    murasaki::platform.spiMaster = new murasaki::SpiMaster(&hspi1);
-    murasaki::platform.spiSlave = new murasaki::SpiSlave(&hspi4);
-#endif
+
 
 #if ! MURASAKI_CONFIG_NOCYCCNT
     // Start the cycle counter to measure the cycle in MURASAKI_SYSLOG.
@@ -115,69 +105,6 @@ void ExecPlatform()
     static int count = 0;
 
     // Following blocks are sample.
-#if 0
-    {
-        uint8_t data[5] = { 1, 2, 3, 4, 5 };
-        murasaki::UartStatus stat;
-
-        stat = murasaki::platform.uart->Transmit(
-                                                 data,
-                                                 5);
-
-    }
-
-    {
-        uint8_t data[5] = { 1, 2, 3, 4, 5 };
-        murasaki::I2cStatus stat;
-
-        stat = murasaki::platform.i2cMaster->Transmit(
-                                                      127,
-                                                      data,
-                                                      5);
-    }
-
-    {
-        uint8_t data[5];
-        murasaki::I2cStatus stat;
-
-        stat = murasaki::platform.i2cSlave->Receive(
-                                                    data,
-                                                    5);
-
-    }
-
-    {
-        // Create a slave adapter. This object specify the protocol and slave select pin
-        murasaki::SpiSlaveAdapterStrategy * slave_spec;
-        slave_spec = new murasaki::SpiSlaveAdapter(
-                                                   murasaki::kspoFallThenRise,
-                                                   murasaki::ksphLatchThenShift,
-                                                   SPI_SLAVE_SEL_GPIO_Port,
-                                                   SPI_SLAVE_SEL_Pin
-                                                   );
-
-        // Transmit and receive data through SPI
-        uint8_t tx_data[5] = { 1, 2, 3, 4, 5 };
-        uint8_t rx_data[5];
-        murasaki::SpiStatus stat;
-        stat = murasaki::platform.spiMaster->TransmitAndReceive(
-                                                                slave_spec,
-                                                                tx_data,
-                                                                rx_data,
-                                                                5);
-    }
-
-    {
-        // Transmit and receive data through SPI
-        uint8_t tx_data[5] = { 1, 2, 3, 4, 5 };
-        uint8_t rx_data[5];
-        murasaki::SpiStatus stat;
-        stat = murasaki::platform.spiSlave->TransmitAndReceive(
-                                                               tx_data,
-                                                               rx_data,
-                                                               5);
-    }
-#endif
     murasaki::platform.task1->Start();
 
     // Loop forever

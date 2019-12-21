@@ -420,10 +420,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
-    
-    
-    
-
   /* USER CODE BEGIN 5 */
   InitPlatform();
   ExecPlatform();
