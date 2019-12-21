@@ -10,16 +10,14 @@ A set of the [Murasaki class library](https://github.com/suikan4github/murasaki)
  * [Author](#author)
 # Description
 
-There are two type of the sample programs.
- * Sample program for Nucleo 64 and 144
- * Sample program for Nucleo 32
-
-The samples program for the Nucleo 64 and 144 demonstrate following functionalitiy :
+This repogitory contains the sample programs for  Nucleo 64 and 144
+ 
+The samples programs  demonstrate following functionality :
  * GPIO output
  * Interrupt and Task synchronization
  * Task
  * I2C master
- * Printf() functionalitiy
+ * Printf() functionality
 
 Once started, the program prints out a message to the serial terminal and blinks the LED on the Nucleo board. The serial terminal specification is :
  * 115200baud
@@ -27,18 +25,22 @@ Once started, the program prints out a message to the serial terminal and blinks
  * None parity
  * 1 stop bit
 
-When a user push a user button on the board, it raises an EXTI interrupt, and this interrupt releases a task to search for I2C.
+When a user push a user button (blue button) on the Nucleo board, it raises an EXTI interrupt, and this interrupt releases a task to search for I2C.
 
 The demonstration on the Nucleo 32 is just a blinking LED.
 
 # Requirement
-* [SW for STM32](https://www.st.com/ja/development-tools/sw4stm32.html) (Tested with v 1.6.0)
+* [STM32 CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html) (Tested with v 1.1.0)
 * Nucleo
-   * [Nucleo F746ZG](https://www.st.com/en/evaluation-tools/nucleo-f746zg.html)(Cortex-M7)
-   * [Nucleo F722ZE](https://www.st.com/en/evaluation-tools/nucleo-f722ze.html)(Cortex-M7)
-   * [Nucleo L152RE](https://www.st.com/en/evaluation-tools/nucleo-l152re.html)(Cortex-M3)
-   * [Nucleo F091RC](https://www.st.com/en/evaluation-tools/nucleo-f091rc.html)(Cortex-M0)
-   * [Nucleo F303K8](https://www.st.com/en/evaluation-tools/nucleo-f303k8.html)(Cortex-M4)
+   * [Nucleo H743](https://www.st.com/en/evaluation-tools/nucleo-f746zg.html) (Cortex-M7)
+   * [Nucleo F746ZG](https://www.st.com/en/evaluation-tools/nucleo-f746zg.html) (Cortex-M7)
+   * [Nucleo F722ZE](https://www.st.com/en/evaluation-tools/nucleo-f722ze.html) (Cortex-M7)
+   * [Nucleo F091RC](https://www.st.com/en/evaluation-tools/nucleo-f091rc.html) (Cortex-M0)
+   * [Nucleo F446RE](https://www.st.com/en/evaluation-tools/nucleo-f446re.html) (Cortex-M4)
+   * [Nucleo G070RB](https://www.st.com/en/evaluation-tools/nucleo-g070rb.html) (Cortex-M0+)
+   * [Nucleo G431RB](https://www.st.com/en/evaluation-tools/nucleo-g431rb.html) (Cortex-M4)
+   * [Nucleo L152RE](https://www.st.com/en/evaluation-tools/nucleo-l152re.html) (Cortex-M3)
+   * [Nucleo L412RB-P](https://www.st.com/en/evaluation-tools/nucleo-l412rb-p.html) (Cortex-M4)
 
 # Where to get
 The Murasaki Samples can be obtained from [Github project page](https://github.com/suikan4github/murasaki_samples/)
