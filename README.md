@@ -3,7 +3,8 @@ A set of the [Murasaki class library](https://github.com/suikan4github/murasaki)
 
 ## Talbe of Contents
  * [Description](#description)
- * [Requirement](#requirement)
+ * [Test environment](#test-environment)
+ * [Supported target](#supported-target)
  * [Where to get](#where-to-get)
  * [Install](#install)
  * [License](#license)
@@ -29,10 +30,13 @@ When a user push a user button (blue button) on the Nucleo board, it raises an E
 
 The demonstration on the Nucleo 32 is just a blinking LED.
 
-# Requirement
+# Test environment
+* Ubuntu 16.04 LTS
 * [STM32 CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html) (Tested with v 1.1.0)
+
+# Supported target
 * Nucleo
-   * [Nucleo H743](https://www.st.com/en/evaluation-tools/nucleo-f746zg.html) (Cortex-M7)
+   * [Nucleo H743ZI](https://www.st.com/en/evaluation-tools/nucleo-h743zi.html) (Cortex-M7)
    * [Nucleo F746ZG](https://www.st.com/en/evaluation-tools/nucleo-f746zg.html) (Cortex-M7)
    * [Nucleo F722ZE](https://www.st.com/en/evaluation-tools/nucleo-f722ze.html) (Cortex-M7)
    * [Nucleo F091RC](https://www.st.com/en/evaluation-tools/nucleo-f091rc.html) (Cortex-M0)
@@ -41,6 +45,10 @@ The demonstration on the Nucleo 32 is just a blinking LED.
    * [Nucleo G431RB](https://www.st.com/en/evaluation-tools/nucleo-g431rb.html) (Cortex-M4)
    * [Nucleo L152RE](https://www.st.com/en/evaluation-tools/nucleo-l152re.html) (Cortex-M3)
    * [Nucleo L412RB-P](https://www.st.com/en/evaluation-tools/nucleo-l412rb-p.html) (Cortex-M4)
+
+Caution : At the point of the Dec/22/2019, following target doesn't work correctly. 
+ * Nucleo H743ZI : There seems to be some bug in the STM32H7 HAL I2C API. See the [report](https://community.st.com/s/question/0D50X0000BoyRlfSQE/bug-report-h743-hali2ctransmitit-respond-incorrectly-when-it-receives-nak) in community. 
+ * Nucleo G070RB : The bug in the STM32G0 GPIO EXTI prevents to run correctly. See the [report](https://community.st.com/s/question/0D50X0000BsQkwcSQC/stm32g0-hal-exti-callback-implementation-is-buggy) in community. 
 
 # Where to get
 The Murasaki Samples can be obtained from [Github project page](https://github.com/suikan4github/murasaki_samples/)
