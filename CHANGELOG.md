@@ -3,10 +3,18 @@ Record of the modification in project development.
 
 ## [Unreleased]
 
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+## [1.0.0] - 2019-12-28
 
 ### Added
 ### Changed
-- [Issue 4 : Add git subumodule init to the Install section of readme](https://github.com/suikan4github/murasaki_samples/issues/4)
+- Update to the Murasaki 1.0.0
+- [Issue 4 : Add git sub-module init to the Install section of readme](https://github.com/suikan4github/murasaki_samples/issues/4)
 ### Deprecated
 ### Removed
 ### Fixed
@@ -44,7 +52,8 @@ Record of the modification in project development.
 ### Fixed
 ### Security
 
-[Unreleased]: https://github.com/suikan4github/murasaki_samples/compare/v0.2.1...develop
+[Unreleased]: https://github.com/suikan4github/murasaki_samples/compare/v1.0.0...develop
+[1.0.0]: https://github.com/suikan4github/murasaki_samples/compare/v0.2.1...v1.0.0
 [0.2.1]: https://github.com/suikan4github/murasaki_samples/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/suikan4github/murasaki_samples/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/suikan4github/murasaki_samples/compare/v0.0.0...v0.1.0
