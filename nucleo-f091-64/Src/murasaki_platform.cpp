@@ -24,7 +24,7 @@
 // Essential definition.
 // Do not delete
 murasaki::Platform murasaki::platform;
-murasaki::Debugger * murasaki::debugger;
+murasaki::Debugger *murasaki::debugger;
 
 /* ------------------------ STM32 Peripherals ----------------------------- */
 
@@ -43,8 +43,7 @@ extern UART_HandleTypeDef huart2;
 
 /* -------------------- PLATFORM Prototypes ------------------------- */
 
-void TaskBodyFunction(const void* ptr);
-void I2cSearch(murasaki::I2CMasterStrategy * master);
+void TaskBodyFunction(const void *ptr);
 
 /* -------------------- PLATFORM Implementation ------------------------- */
 
@@ -95,8 +94,8 @@ void InitPlatform()
     murasaki::platform.i2c_master = new murasaki::I2cMaster(&hi2c1);
     MURASAKI_ASSERT(nullptr != murasaki::platform.i2c_master)
 
-    murasaki::platform.button_sync = new murasaki::Synchronizer();
-    MURASAKI_ASSERT(nullptr != murasaki::platform.button_sync)
+    murasaki::platform.b1 = new murasaki::Exti(B1_Pin);
+    MURASAKI_ASSERT(nullptr != murasaki::platform.b1)
 
 }
 
@@ -110,11 +109,10 @@ void ExecPlatform()
 
     // waiting for the Button push.
     murasaki::debugger->Printf("!!! Push blue button to start the demo \n");
-    murasaki::platform.button_sync->Wait();
+    murasaki::platform.b1->Wait();
 
     // List up connected I2C device to the console.
     I2cSearch(murasaki::platform.i2c_master);
-
 
     // Loop forever
     while (true) {
@@ -147,7 +145,7 @@ void ExecPlatform()
  * In this call back, the uart device handle have to be passed to the
  * murasaki::Uart::TransmissionCompleteCallback() function.
  */
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef * huart)
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
                              {
     // Poll all uart tx related interrupt receivers.
     // If hit, return. If not hit,check next.
@@ -171,7 +169,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef * huart)
  * In this call back, the uart device handle have to be passed to the
  * murasaki::Uart::ReceiveCompleteCallback() function.
  */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef * huart)
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
                              {
     // Poll all uart rx related interrupt receivers.
     // If hit, return. If not hit,check next.
@@ -276,7 +274,7 @@ void HAL_SPI_ErrorCallback(SPI_HandleTypeDef * hspi) {
  * In this call back, the uart device handle have to be passed to the
  * murasaki::I2c::TransmitCompleteCallback() function.
  */
-void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef * hi2c)
+void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c)
                                   {
     // Poll all I2C master tx related interrupt receivers.
     // If hit, return. If not hit,check next.
@@ -300,12 +298,12 @@ void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef * hi2c)
  * In this call back, the uart device handle have to be passed to the
  * murasaki::Uart::ReceiveCompleteCallback() function.
  */
-void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef * hi2c) {
+void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c) {
     // Poll all I2C master rx related interrupt receivers.
     // If hit, return. If not hit,check next.
 #if 1
     if (murasaki::platform.i2c_master->ReceiveCompleteCallback(hi2c))
-    return;
+        return;
 #endif
 }
 /**
@@ -323,7 +321,7 @@ void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef * hi2c) {
  * In this call back, the I2C slave device handle have to be passed to the
  * murasaki::I2cSlave::TransmitCompleteCallback() function.
  */
-void HAL_I2C_SlaveTxCpltCallback(I2C_HandleTypeDef * hi2c)
+void HAL_I2C_SlaveTxCpltCallback(I2C_HandleTypeDef *hi2c)
                                  {
     // Poll all I2C master tx related interrupt receivers.
     // If hit, return. If not hit,check next.
@@ -347,7 +345,7 @@ void HAL_I2C_SlaveTxCpltCallback(I2C_HandleTypeDef * hi2c)
  * In this call back, the I2C slave device handle have to be passed to the
  * murasaki::I2cSlave::ReceiveCompleteCallback() function.
  */
-void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef * hi2c) {
+void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c) {
     // Poll all I2C master rx related interrupt receivers.
     // If hit, return. If not hit,check next.
 #if 0
@@ -371,12 +369,12 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef * hi2c) {
  * In this call back, the uart device handle have to be passed to the
  * murasaki::I2c::HandleError() function.
  */
-void HAL_I2C_ErrorCallback(I2C_HandleTypeDef * hi2c) {
+void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *hi2c) {
     // Poll all I2C master error related interrupt receivers.
     // If hit, return. If not hit,check next.
 #if 1
     if (murasaki::platform.i2c_master->HandleError(hi2c))
-    return;
+        return;
 #endif
 }
 
@@ -448,21 +446,18 @@ void HAL_SAI_ErrorCallback(SAI_HandleTypeDef * hsai) {
  * The GPIO_Pin is the number of Pin. For example, if a programmer set the pin name by CubeIDE as FOO, the
  * macro to identify that EXTI is FOO_Pin
  */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)                            {
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 #if 1
     // Sample of the EXTI call back.
     // USER_Btn is a standard name of the user push button switch of the Nucleo F722.
     // This switch can be configured as EXTI interrupt srouce.
     // In this sample, releasing the waiting task if interrupt comes.
 
-    // Check whether appropriate interrupt or not
-    if ( B1_Pin == GPIO_Pin) {
-        // Check whether sync object is ready or not.
-        // This check is essential to guard from the interrupt before the platform variable is ready
-        if (murasaki::platform.button_sync != nullptr)
+    // Check whether sync object is ready or not.
+    // This check is essential to guard from the interrupt before the platform variable is ready
+    if (murasaki::platform.b1 != nullptr)
         // release the waiting task
-            murasaki::platform.button_sync->Release();
-    }
+        murasaki::platform.b1->Release(GPIO_Pin);
 #endif
 }
 
@@ -486,12 +481,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)                            {
  * By default, this routine output a message with location informaiton
  * to the debugger console.
  */
-void CustomAssertFailed(uint8_t* file, uint32_t line)
+void CustomAssertFailed(uint8_t *file, uint32_t line)
                         {
     murasaki::debugger->Printf("Wrong parameters value: file %s on line %d\n",
                                file,
                                line);
-    // To stop the execusion, raise assert.
+// To stop the execusion, raise assert.
     MURASAKI_ASSERT(false);
 }
 
@@ -532,7 +527,7 @@ __asm volatile (
  * Do not call from application. This is murasaki_internal_only.
  *
  */
-void PrintFaultResult(unsigned int * stack_pointer) {
+void PrintFaultResult(unsigned int *stack_pointer) {
 
     murasaki::debugger->Printf("\nSpurious exception or hardfault occured.  \n");
     murasaki::debugger->Printf("Stacked R0  : 0x%08X \n", stack_pointer[0]);
@@ -544,13 +539,13 @@ void PrintFaultResult(unsigned int * stack_pointer) {
     murasaki::debugger->Printf("Stacked PC  : 0x%08X \n", stack_pointer[6]);
     murasaki::debugger->Printf("Stacked PSR : 0x%08X \n", stack_pointer[7]);
 
-    murasaki::debugger->Printf("       CFSR : 0x%08X \n", *(unsigned int *) 0xE000ED28);
-    murasaki::debugger->Printf("       HFSR : 0x%08X \n", *(unsigned int *) 0xE000ED2C);
-    murasaki::debugger->Printf("       DFSR : 0x%08X \n", *(unsigned int *) 0xE000ED30);
-    murasaki::debugger->Printf("       AFSR : 0x%08X \n", *(unsigned int *) 0xE000ED3C);
+    murasaki::debugger->Printf("       CFSR : 0x%08X \n", *(unsigned int*) 0xE000ED28);
+    murasaki::debugger->Printf("       HFSR : 0x%08X \n", *(unsigned int*) 0xE000ED2C);
+    murasaki::debugger->Printf("       DFSR : 0x%08X \n", *(unsigned int*) 0xE000ED30);
+    murasaki::debugger->Printf("       AFSR : 0x%08X \n", *(unsigned int*) 0xE000ED3C);
 
-    murasaki::debugger->Printf("       MMAR : 0x%08X \n", *(unsigned int *) 0xE000ED34);
-    murasaki::debugger->Printf("       BFAR : 0x%08X \n", *(unsigned int *) 0xE000ED38);
+    murasaki::debugger->Printf("       MMAR : 0x%08X \n", *(unsigned int*) 0xE000ED34);
+    murasaki::debugger->Printf("       BFAR : 0x%08X \n", *(unsigned int*) 0xE000ED38);
 
     murasaki::debugger->Printf("(Note : To avoid the stacking by C compiler, use release build to investigate the fault. ) \n");
 
@@ -581,7 +576,7 @@ void vApplicationStackOverflowHook(TaskHandle_t xTask,
  *
  * You can delete this function if you don't use.
  */
-void TaskBodyFunction(const void* ptr)  {
+void TaskBodyFunction(const void *ptr) {
 
     while (true)  // dummy loop
     {
@@ -589,42 +584,3 @@ void TaskBodyFunction(const void* ptr)  {
         murasaki::Sleep(700);
     }
 }
-
-/**
- * @brief I2C device serach function
- * @param master Pointer to the I2C master controller object.
- * @details
- * Poll all device address and check the response. If no response(NAK),
- * there is no device.
- *
- * This function can be deleted if you don't use.
- */
-#if 1
-void I2cSearch(murasaki::I2CMasterStrategy * master)
-               {
-    uint8_t tx_buf[1];
-
-    murasaki::debugger->Printf("\n            Probing I2C devices \n");
-    murasaki::debugger->Printf("   | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n");
-    murasaki::debugger->Printf("---+------------------------------------------------\n");
-
-    // Search raw
-    for (int raw = 0; raw < 128; raw += 16) {
-        // Search column
-        murasaki::debugger->Printf("%2x |", raw);
-        for (int col = 0; col < 16; col++) {
-            murasaki::I2cStatus result;
-            // check whether device exist or not.
-            result = master->Transmit(raw + col, tx_buf, 0);
-            if (result == murasaki::ki2csOK)  // device acknowledged.
-                murasaki::debugger->Printf(" %2X", raw + col); // print address
-            else if (result == murasaki::ki2csNak)  // no device
-                murasaki::debugger->Printf(" --");
-            else
-                murasaki::debugger->Printf(" ??");  // unpredicted error.
-        }
-        murasaki::debugger->Printf("\n");
-    }
-
-}
-#endif

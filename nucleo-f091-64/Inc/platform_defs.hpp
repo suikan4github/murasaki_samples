@@ -40,7 +40,7 @@ struct Platform
     BitOutStrategy * led;           ///< GP out under test
     TaskStrategy * task1;           ///< Task under test
     I2CMasterStrategy * i2c_master;  ///< I2C Master under test
-    Synchronizer * button_sync;		///< Syncronizer demo
+    InterruptStrategy * b1;		///< Exti demo
 
     // Following block is just sample
 
