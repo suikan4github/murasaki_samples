@@ -24,7 +24,8 @@ namespace murasaki {
  * \details
  * A collection of the peripheral / MPU control variable.
  *
- * This is a custom struct. Programmer can change this struct as suitable to the hardware and software.
+ * This is a custom struct. Programmer cq
+ * an change this struct as suitable to the hardware and software.
  * But debugger_ member variable have to be left untouched.
  *
  * In the run time, the debugger_ variable have to be initialized by appropriate \ref murasaki::Debugger class instance.
@@ -39,7 +40,7 @@ struct Platform
 
     BitOutStrategy *led;           ///< GP out under test
     TaskStrategy *task1;           ///< Task under test
-    I2CMasterStrategy *i2c_master;  ///< I2C Master under test
+    I2cMasterStrategy *i2c_master;  ///< I2C Master under test
     InterruptStrategy *b1;     ///< Exti demo
 
     // Following block is just sample

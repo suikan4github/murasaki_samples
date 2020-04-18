@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# set all murasaki submodule to develop branch
+
+dirs=`find n* -maxdepth 0 -type d`
+
+for dir in $dirs;
+do
+    echo $dir
+    cd $dir
+    cd murasaki
+    git checkout develop
+    git pull
+    cd ../..
+done
