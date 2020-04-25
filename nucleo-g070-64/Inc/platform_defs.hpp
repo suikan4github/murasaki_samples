@@ -24,7 +24,8 @@ namespace murasaki {
  * \details
  * A collection of the peripheral / MPU control variable.
  *
- * This is a custom struct. Programmer can change this struct as suitable to the hardware and software.
+ * This is a custom struct. Programmer cq
+ * an change this struct as suitable to the hardware and software.
  * But debugger_ member variable have to be left untouched.
  *
  * In the run time, the debugger_ variable have to be initialized by appropriate \ref murasaki::Debugger class instance.
@@ -34,16 +35,15 @@ namespace murasaki {
 struct Platform
 {
     // Platform dependent Custom variables.
-    UartStrategy * uart_console;    ///< UART wrapping class object for debugging
-    LoggerStrategy * logger;        ///< logging class object for debugger
+    UartStrategy *uart_console;    ///< UART wrapping class object for debugging
+    LoggerStrategy *logger;        ///< logging class object for debugger
 
-    BitOutStrategy * led;           ///< GP out under test
-    TaskStrategy * task1;           ///< Task under test
-    I2CMasterStrategy * i2c_master;  ///< I2C Master under test
-    Synchronizer * button_sync;		///< Syncronizer demo
+    BitOutStrategy *led;           ///< GP out under test
+    TaskStrategy *task1;           ///< Task under test
+    I2cMasterStrategy *i2c_master;  ///< I2C Master under test
+    InterruptStrategy *b1;     ///< Exti demo
 
     // Following block is just sample
-
 
 };
 
@@ -59,17 +59,11 @@ struct Platform
  */
 extern Platform platform;
 
-
-
-
 /**
  * \}
  * end of defgroup PLATFORM_GROUP
  */
 
-
-
 } /* namespace murasaki */
-
 
 #endif /* PLATFORM_DEFS_HPP_ */

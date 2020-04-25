@@ -47,8 +47,7 @@ The demonstration on the Nucleo 32 is just a blinking LED.
    * [Nucleo L412RB-P](https://www.st.com/en/evaluation-tools/nucleo-l412rb-p.html) (Cortex-M4)
 
 Caution : At the point of the Dec/22/2019, following target doesn't work correctly. 
- * Nucleo H743ZI : There seems to be some bug in the STM32H7 HAL I2C API. See the [report](https://community.st.com/s/question/0D50X0000BoyRlfSQE/bug-report-h743-hali2ctransmitit-respond-incorrectly-when-it-receives-nak) in community. 
- * Nucleo G070RB : The bug in the STM32G0 GPIO EXTI prevents to run correctly. See the [report](https://community.st.com/s/question/0D50X0000BsQkwcSQC/stm32g0-hal-exti-callback-implementation-is-buggy) in community. 
+ * Nucleo L152RE : The bug in the CubeIDE 1.30 prevents to build the EXTI class. See the [report](https://github.com/suikan4github/stm32-defects#d006-stm32l1-hal_exti-wrong-configuration) in . 
 
 # Where to get
 The Murasaki Samples can be obtained from [Github project page](https://github.com/suikan4github/murasaki_samples/)
