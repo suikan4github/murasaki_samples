@@ -5,10 +5,22 @@ Record of the modification in project development.
 
 ### Added
 ### Changed
+- [Issue 6 :Update to Murasaki v3.0.0](https://github.com/suikan4github/murasaki_samples/issues/6)
+
 ### Deprecated
 ### Removed
 ### Fixed
 ### Security
+
+## [3.0.0] - 2020-04-25
+
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
 ## [1.0.0] - 2019-12-28
 
 ### Added
@@ -52,7 +64,8 @@ Record of the modification in project development.
 ### Fixed
 ### Security
 
-[Unreleased]: https://github.com/suikan4github/murasaki_samples/compare/v1.0.0...develop
+[Unreleased]: https://github.com/suikan4github/murasaki_samples/compare/v3.0.0...develop
+[1.0.0]: https://github.com/suikan4github/murasaki_samples/compare/v1.0.0...v3.0.0
 [1.0.0]: https://github.com/suikan4github/murasaki_samples/compare/v0.2.1...v1.0.0
 [0.2.1]: https://github.com/suikan4github/murasaki_samples/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/suikan4github/murasaki_samples/compare/v0.1.0...v0.2.0
