@@ -29,7 +29,6 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32g4xx_hal.h"
-#include "stm32g4xx_ll_pwr.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -74,6 +73,7 @@ void Error_Handler(void);
 #define T_SWCLK_GPIO_Port GPIOA
 #define T_SWO_Pin GPIO_PIN_3
 #define T_SWO_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
@@ -83,5 +83,3 @@ void Error_Handler(void);
 #endif
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

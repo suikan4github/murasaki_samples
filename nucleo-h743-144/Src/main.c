@@ -17,7 +17,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "string.h"
@@ -46,29 +45,23 @@
 
 /* Private variables ---------------------------------------------------------*/
 #if defined ( __ICCARM__ ) /*!< IAR Compiler */
-
-#pragma location=0x30040000
+#pragma location=0x30000000
 ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
-#pragma location=0x30040060
+#pragma location=0x30000200
 ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
-#pragma location=0x30040200
-uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE]; /* Ethernet Receive Buffers */
 
 #elif defined ( __CC_ARM )  /* MDK ARM Compiler */
 
-__attribute__((at(0x30040000))) ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
-__attribute__((at(0x30040060))) ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
-__attribute__((at(0x30040200))) uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE]; /* Ethernet Receive Buffer */
+__attribute__((at(0x30000000))) ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
+__attribute__((at(0x30000200))) ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
 
-#elif defined ( __GNUC__ ) /* GNU Compiler */ 
-
+#elif defined ( __GNUC__ ) /* GNU Compiler */
 ETH_DMADescTypeDef DMARxDscrTab[ETH_RX_DESC_CNT] __attribute__((section(".RxDecripSection"))); /* Ethernet Rx DMA Descriptors */
 ETH_DMADescTypeDef DMATxDscrTab[ETH_TX_DESC_CNT] __attribute__((section(".TxDecripSection")));   /* Ethernet Tx DMA Descriptors */
-uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE] __attribute__((section(".RxArraySection"))); /* Ethernet Receive Buffers */
 
 #endif
 
-ETH_TxPacketConfig TxConfig; 
+ETH_TxPacketConfig TxConfig;
 
 ETH_HandleTypeDef heth;
 
@@ -174,7 +167,6 @@ int main(void)
 
   /* Start scheduler */
   osKernelStart();
- 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -195,17 +187,19 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
-  /** Supply configuration update enable 
+  /** Supply configuration update enable
   */
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
-  /** Configure the main internal regulator output voltage 
+
+  /** Configure the main internal regulator output voltage
   */
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
-  /** Initializes the CPU, AHB and APB busses clocks 
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
@@ -223,7 +217,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+
+  /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
@@ -240,18 +235,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_I2C1
-                              |RCC_PERIPHCLK_USB;
-  PeriphClkInitStruct.Usart234578ClockSelection = RCC_USART234578CLKSOURCE_D2PCLK1;
-  PeriphClkInitStruct.I2c123ClockSelection = RCC_I2C123CLKSOURCE_D2PCLK1;
-  PeriphClkInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_PLL;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Enable USB Voltage detector 
-  */
-  HAL_PWREx_EnableUSBVoltageDetector();
 }
 
 /**
@@ -266,16 +249,19 @@ static void MX_ETH_Init(void)
 
   /* USER CODE END ETH_Init 0 */
 
+   static uint8_t MACAddr[6];
+
   /* USER CODE BEGIN ETH_Init 1 */
 
   /* USER CODE END ETH_Init 1 */
   heth.Instance = ETH;
-  heth.Init.MACAddr[0] =   0x00;
-  heth.Init.MACAddr[1] =   0x80;
-  heth.Init.MACAddr[2] =   0xE1;
-  heth.Init.MACAddr[3] =   0x00;
-  heth.Init.MACAddr[4] =   0x00;
-  heth.Init.MACAddr[5] =   0x00;
+  MACAddr[0] = 0x00;
+  MACAddr[1] = 0x80;
+  MACAddr[2] = 0xE1;
+  MACAddr[3] = 0x00;
+  MACAddr[4] = 0x00;
+  MACAddr[5] = 0x00;
+  heth.Init.MACAddr = &MACAddr[0];
   heth.Init.MediaInterface = HAL_ETH_RMII_MODE;
   heth.Init.TxDesc = DMATxDscrTab;
   heth.Init.RxDesc = DMARxDscrTab;
@@ -328,13 +314,15 @@ static void MX_I2C1_Init(void)
   {
     Error_Handler();
   }
-  /** Configure Analogue filter 
+
+  /** Configure Analogue filter
   */
   if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
   {
     Error_Handler();
   }
-  /** Configure Digital filter 
+
+  /** Configure Digital filter
   */
   if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
   {
@@ -430,10 +418,10 @@ static void MX_USB_OTG_FS_PCD_Init(void)
 
 }
 
-/** 
+/**
   * Enable DMA controller clock
   */
-static void MX_DMA_Init(void) 
+static void MX_DMA_Init(void)
 {
 
   /* DMA controller clock enable */
@@ -457,6 +445,8 @@ static void MX_DMA_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -502,6 +492,8 @@ static void MX_GPIO_Init(void)
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -525,10 +517,10 @@ void StartDefaultTask(void const * argument)
   {
     osDelay(1);
   }
-  /* USER CODE END 5 */ 
+  /* USER CODE END 5 */
 }
 
- /**
+/**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM17 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
@@ -570,7 +562,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
@@ -578,5 +570,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

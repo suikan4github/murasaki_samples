@@ -21,8 +21,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f0xx_it.h"
-#include "FreeRTOS.h"
-#include "task.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "murasaki_platform.hpp"
@@ -70,7 +68,7 @@ extern TIM_HandleTypeDef htim17;
 /* USER CODE END EV */
 
 /******************************************************************************/
-/*           Cortex-M0 Processor Interruption and Exception Handlers          */ 
+/*           Cortex-M0 Processor Interruption and Exception Handlers          */
 /******************************************************************************/
 /**
   * @brief This function handles Non maskable interrupt.
@@ -116,7 +114,7 @@ void EXTI4_15_IRQHandler(void)
   /* USER CODE BEGIN EXTI4_15_IRQn 0 */
 
   /* USER CODE END EXTI4_15_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+  HAL_GPIO_EXTI_IRQHandler(B1_Pin);
   /* USER CODE BEGIN EXTI4_15_IRQn 1 */
 
   /* USER CODE END EXTI4_15_IRQn 1 */
@@ -199,4 +197,3 @@ void USART2_IRQHandler(void)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
