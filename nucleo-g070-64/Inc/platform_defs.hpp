@@ -16,16 +16,12 @@
 
 namespace murasaki {
 /**
- * @ingroup MURASAKI_PLATFORM_GROUP
- * \{
- */
-/**
  * \brief Custom aggregation struct for user platform.
+ * @ingroup MURASAKI_PLATFORM_GROUP
  * \details
  * A collection of the peripheral / MPU control variable.
  *
- * This is a custom struct. Programmer cq
- * an change this struct as suitable to the hardware and software.
+ * This is a custom struct. Programmer can change this struct as suitable to the hardware and software.
  * But debugger_ member variable have to be left untouched.
  *
  * In the run time, the debugger_ variable have to be initialized by appropriate \ref murasaki::Debugger class instance.
@@ -48,7 +44,9 @@ struct Platform
 };
 
 /**
+ * \var murasaki::platform
  * \brief Grobal variable to provide the access to the platform component.
+ * @ingroup MURASAKI_PLATFORM_GROUP
  * \details
  * This variable is declared by murasaki platform. But not instantiated. To make it happen,
  * programmer have to make an variable and initilize it explicitly.
@@ -58,11 +56,6 @@ struct Platform
  *
  */
 extern Platform platform;
-
-/**
- * \}
- * end of defgroup PLATFORM_GROUP
- */
 
 } /* namespace murasaki */
 
