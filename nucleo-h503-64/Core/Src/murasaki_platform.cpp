@@ -73,8 +73,8 @@ extern UART_HandleTypeDef UART_PORT;
 #define UART_PORT huart3
 #define LED_PORT LD2_GPIO_Port
 #define LED_PIN LD2_Pin
-#define USER_BUTTON_PORT USER_Btn_GPIO_Port
-#define USER_BUTTON_PIN USER_Btn_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #elif defined(STM32F746xx)
@@ -82,15 +82,15 @@ extern UART_HandleTypeDef UART_PORT;
 #define UART_PORT huart3
 #define LED_PORT LD2_GPIO_Port
 #define LED_PIN LD2_Pin
-#define USER_BUTTON_PORT USER_Btn_GPIO_Port
-#define USER_BUTTON_PIN USER_Btn_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #elif defined(STM32G070xx)
 // For Nucleo G070RB (48pin)
 #define UART_PORT huart2
-#define LED_PORT LD4_GPIO_Port
-#define LED_PIN LD4_Pin
+#define LED_PORT LD2_GPIO_Port
+#define LED_PIN LD2_Pin
 #define USER_BUTTON_PORT B1_GPIO_Port
 #define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
@@ -109,8 +109,8 @@ extern UART_HandleTypeDef UART_PORT;
 #define UART_PORT huart3
 #define LED_PORT LD2_GPIO_Port
 #define LED_PIN LD2_Pin
-#define USER_BUTTON_PORT USER_Btn_GPIO_Port
-#define USER_BUTTON_PIN USER_Btn_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #elif defined(STM32L152xE)
@@ -145,8 +145,8 @@ extern UART_HandleTypeDef UART_PORT;
 #define UART_PORT huart3
 #define LED_PORT USER_LED_GPIO_Port
 #define LED_PIN USER_LED_Pin
-#define USER_BUTTON_PORT B1_BLUE_USER_BUTTON_GPIO_Port
-#define USER_BUTTON_PIN B1_BLUE_USER_BUTTON_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #else

@@ -55,6 +55,8 @@ extern UART_HandleTypeDef huart2;
 #define UART_PORT huart2
 #define LED_PORT LD2_GPIO_Port
 #define LED_PIN LD2_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #elif defined(STM32F446xx)
@@ -62,6 +64,8 @@ extern UART_HandleTypeDef UART_PORT;
 #define UART_PORT huart2
 #define LED_PORT LD2_GPIO_Port
 #define LED_PIN LD2_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #elif defined(STM32F722xx)
@@ -69,6 +73,8 @@ extern UART_HandleTypeDef UART_PORT;
 #define UART_PORT huart3
 #define LED_PORT LD2_GPIO_Port
 #define LED_PIN LD2_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #elif defined(STM32F746xx)
@@ -76,6 +82,8 @@ extern UART_HandleTypeDef UART_PORT;
 #define UART_PORT huart3
 #define LED_PORT LD2_GPIO_Port
 #define LED_PIN LD2_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #elif defined(STM32G070xx)
@@ -83,6 +91,8 @@ extern UART_HandleTypeDef UART_PORT;
 #define UART_PORT huart2
 #define LED_PORT LD2_GPIO_Port
 #define LED_PIN LD2_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #elif defined(STM32G431xx)
@@ -99,8 +109,8 @@ extern UART_HandleTypeDef UART_PORT;
 #define UART_PORT huart3
 #define LED_PORT LD2_GPIO_Port
 #define LED_PIN LD2_Pin
-#define USER_BUTTON_PORT USER_Btn_GPIO_Port
-#define USER_BUTTON_PIN USER_Btn_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #elif defined(STM32L152xE)
@@ -126,6 +136,8 @@ extern UART_HandleTypeDef UART_PORT;
 #define UART_PORT huart2
 #define LED_PORT LED_GREEN_GPIO_Port
 #define LED_PIN LED_GREEN_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #elif defined(STM32H503xx)
@@ -133,6 +145,8 @@ extern UART_HandleTypeDef UART_PORT;
 #define UART_PORT huart3
 #define LED_PORT USER_LED_GPIO_Port
 #define LED_PIN USER_LED_Pin
+#define USER_BUTTON_PORT B1_GPIO_Port
+#define USER_BUTTON_PIN B1_Pin
 extern UART_HandleTypeDef UART_PORT;
 
 #else
